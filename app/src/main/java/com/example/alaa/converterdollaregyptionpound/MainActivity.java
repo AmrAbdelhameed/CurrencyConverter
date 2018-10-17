@@ -22,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
         numEgypt = findViewById(R.id.numEgypt);
         convert = findViewById(R.id.convert);
         clearAll = findViewById(R.id.clearAll);
-
         currencyConverter = new CurrencyConverter();
 
         convert.setOnClickListener(new View.OnClickListener() {
@@ -31,13 +30,16 @@ public class MainActivity extends AppCompatActivity {
                 String strUs = numUS.getText().toString(),
                         strEgypt = numEgypt.getText().toString();
 
-                if (strUs.isEmpty() && strEgypt.isEmpty())
+                if (strUs.isEmpty() && strEgypt.isEmpty()) {
                     Toast.makeText(MainActivity.this,
                             "Invalid data - try again", Toast.LENGTH_SHORT).show();
-                else if (strUs.isEmpty())
-                    numUS.setText(String.valueOf(currencyConverter.toUS(strEgypt)));
-                else
-                    numEgypt.setText(String.valueOf(currencyConverter.toEgypt(strUs)));
+                } else if (strUs.isEmpty()) {
+                    double doubleEgypt = Double.parseDouble(strEgypt);
+                    numUS.setText(String.valueOf(currencyConverter.toUS(doubleEgypt)));
+                } else {
+                    double doubleUs = Double.parseDouble(strUs);
+                    numEgypt.setText(String.valueOf(currencyConverter.toEgypt(doubleUs)));
+                }
             }
         });
 
