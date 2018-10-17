@@ -9,9 +9,9 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-
     EditText numUS, numEgypt;
     Button convert, clearAll;
+    CurrencyConverter currencyConverter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,23 +20,24 @@ public class MainActivity extends AppCompatActivity {
 
         numUS = findViewById(R.id.numUS);
         numEgypt = findViewById(R.id.numEgypt);
-
         convert = findViewById(R.id.convert);
         clearAll = findViewById(R.id.clearAll);
+
+        currencyConverter = new CurrencyConverter();
 
         convert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String strUs = numUS.getText().toString(), strEgypt = numEgypt.getText().toString();
+                String strUs = numUS.getText().toString(),
+                        strEgypt = numEgypt.getText().toString();
+
                 if (strUs.isEmpty() && strEgypt.isEmpty())
-                    Toast.makeText(MainActivity.this, "Invalid data - try again", Toast.LENGTH_SHORT).show();
-                else if (strUs.isEmpty()) {
-                    double ans = Double.parseDouble(strEgypt) / 17.91;
-                    numUS.setText(String.valueOf(ans));
-                } else {
-                    double ans = Double.parseDouble(strUs) * 17.91;
-                    numEgypt.setText(String.valueOf(ans));
-                }
+                    Toast.makeText(MainActivity.this,
+                            "Invalid data - try again", Toast.LENGTH_SHORT).show();
+                else if (strUs.isEmpty())
+                    numUS.setText(String.valueOf(currencyConverter.toUS(strEgypt)));
+                else
+                    numEgypt.setText(String.valueOf(currencyConverter.toEgypt(strUs)));
             }
         });
 
